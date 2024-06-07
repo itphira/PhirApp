@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.yourapp">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <application
+	<uses-permission android:name="android.permission.INTERNET" />
+	<application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -9,24 +9,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-		<receiver
-            android:name="com.google.firebase.iid.FirebaseInsanceIdInternalReceiver"
-            android:exported="false"
-			/>
-		<receiver
-            android:name="com.google.firebase.iid.FirebaseInsanceIdReceiver"
-            android:exported="true"
-            android:permission="com.google.android.cd2m.permission.SEND"
-			>
+		<service
+            android:name="crc64d93bfbfb31329c3f.MyMessagingService"
+            android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
 
+		<service
+            android:name="crc64d93bfbfb31329c3f.MyFirebaseIDInstance"
+            android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+			</intent-filter>
+		</service>
+
+		<receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver"
+            android:exported="false"
+        />
+		<receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
 			<intent-filter>
 				<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
 				<action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
 				<category android:name="${applicationId}"/>
-
 			</intent-filter>
-			
 		</receiver>
-			
-    </application>
+	</application>
 </manifest>

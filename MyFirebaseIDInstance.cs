@@ -3,7 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using Android.Widget;
+using Android.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace PhirAPP
 
         private void SendTokenToServer(string refreshedToken)
         {
-            Console.WriteLine(PackageName, refreshedToken);
+            Log.Debug(PackageName, refreshedToken);
         }
     }
 }
