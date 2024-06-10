@@ -64,7 +64,7 @@ namespace PhirAPP
                 .SetWhen(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds())
                 .SetContentTitle(title)
                 .SetContentText(body)
-                .SetSmallIcon(Resource.Drawable.notification_icon_background)
+                .SetSmallIcon(Resource.Mipmap.ic_launcher_round)
                 .SetContentInfo("info");
 
             notificationManager.Notify(new Random().Next(), notificationBuilder.Build() );

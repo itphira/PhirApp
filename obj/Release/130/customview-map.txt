@@ -3,6 +3,7 @@ adaptive-icon;obj\Release\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
 background;obj\Release\130\res\mipmap-anydpi-v26\ic_launcher.xml
 background;obj\Release\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
 Button;obj\Release\130\res\layout\activity_article_detail.xml
+Button;obj\Release\130\res\layout\activity_main.xml
 Button;obj\Release\130\res\layout\activity_profile.xml
 Button;obj\Release\130\res\layout\comment_item.xml
 Button;obj\Release\130\res\layout\login_activity.xml
@@ -46,6 +47,7 @@ ProgressBar;obj\Release\130\res\layout\login_activity.xml
 RelativeLayout;obj\Release\130\res\layout\activity_article_detail.xml
 RelativeLayout;obj\Release\130\res\layout\activity_main.xml
 RelativeLayout;obj\Release\130\res\layout\comment_item.xml
+resources;C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Release\130\googsvcsjson\values\goog_svcs_json.xml
 resources;obj\Release\130\res\values\colors.xml
 resources;obj\Release\130\res\values\dimens.xml
 resources;obj\Release\130\res\values\ic_launcher_background.xml
@@ -55,6 +57,7 @@ ScrollView;obj\Release\130\res\layout\activity_article_detail.xml
 ScrollView;obj\Release\130\res\layout\activity_profile.xml
 shape;obj\Release\130\res\drawable\comment_background.xml
 solid;obj\Release\130\res\drawable\comment_background.xml
+string;C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Release\130\googsvcsjson\values\goog_svcs_json.xml
 string;obj\Release\130\res\values\strings.xml
 style;obj\Release\130\res\values\styles.xml
 TextView;obj\Release\130\res\layout\activity_article_detail.xml

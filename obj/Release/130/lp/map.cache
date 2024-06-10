@@ -73,6 +73,7 @@ Xamarin.Firebase.Datatransport.dll
 Xamarin.Firebase.Encoders.dll
 Xamarin.Firebase.Encoders.JSON.dll
 Xamarin.Firebase.Encoders.Proto.dll
+Xamarin.Firebase.Iid.dll
 Xamarin.Firebase.Iid.Interop.dll
 Xamarin.Firebase.Installations.dll
 Xamarin.Firebase.Installations.InterOp.dll
@@ -160,3 +161,4 @@ firebaseinstallations-17.2.0.aar
 firebaseiidinterop-17.1.0.aar
 firebasedatatransport-18.2.1.aar
 firebasemessaging-23.4.1.aar
+firebaseiid-21.1.0.aar

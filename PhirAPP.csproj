@@ -84,7 +84,6 @@
     <Compile Include="MyMessagingService.cs" />
     <Compile Include="MyFirebaseIDInstance.cs" />
     <Compile Include="Services\ApiServices.cs" />
-    <Compile Include="src\MyFirebaseMessagingService.cs" />
     <Compile Include="src\ArticleDetailActivity.cs" />
     <Compile Include="src\LoginActivity.cs" />
     <Compile Include="src\MainActivity.cs" />

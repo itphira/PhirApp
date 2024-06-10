@@ -39,11 +39,6 @@
       <meta-data android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED" android:value="true" />
     </receiver>
     <uses-library android:name="org.apache.http.legacy" android:required="false" />
-    <service android:name="crc64d93bfbfb31329c3f.MyFirebaseMessagingService" android:exported="false">
-      <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-      </intent-filter>
-    </service>
     <activity android:name="crc64d93bfbfb31329c3f.ArticleDetailActivity" android:label="Article Detail" />
     <activity android:name="crc64d93bfbfb31329c3f.LoginActivity" android:exported="true" android:theme="@style/AppTheme">
       <intent-filter>

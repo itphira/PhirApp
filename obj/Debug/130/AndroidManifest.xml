@@ -28,11 +28,6 @@
       </intent-filter>
     </receiver>
     <uses-library android:name="org.apache.http.legacy" android:required="false" />
-    <service android:exported="false" android:name="crc64d93bfbfb31329c3f.MyFirebaseMessagingService">
-      <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-      </intent-filter>
-    </service>
     <activity android:label="Article Detail" android:name="crc64d93bfbfb31329c3f.ArticleDetailActivity" />
     <activity android:theme="@style/AppTheme" android:name="crc64d93bfbfb31329c3f.LoginActivity" android:exported="true">
       <intent-filter>

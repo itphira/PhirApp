@@ -19,6 +19,7 @@ using System.Linq;
 using Firebase;
 using Android.Gms.Common;
 using Firebase.Iid;
+using Newtonsoft.Json;
 
 namespace PhirAPP
 {
@@ -33,6 +34,9 @@ namespace PhirAPP
         private ProgressBar progressBar;
         private TextView msgText;
         private Button testNotificationButton;
+
+        private string firebaseServerKey = "AIzaSyAuFyNPHSoab6ibC_fqQegdOHgqdfnDHJ4";
+        private string senderId = "1038552327464";
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -61,58 +65,48 @@ namespace PhirAPP
             listView = FindViewById<ListView>(Resource.Id.articleListView);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
-            msgText = FindViewById<TextView>(Resource.Id.msgText);
             testNotificationButton = FindViewById<Button>(Resource.Id.testNotificationButton);
             navigation.SetOnNavigationItemSelectedListener(this);
 
-            testNotificationButton.Click += delegate
+            testNotificationButton.Click += async (sender, e) =>
             {
-                Log.Debug("TOKEN", "Instance ID Token: " + FirebaseInstanceId.Instance.Token);
+                await SendTestNotification();
             };
-
-            IsPlayServicesAvailable();
         }
 
-        private bool IsPlayServicesAvailable() 
+        private async Task SendTestNotification()
         {
-            int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
-            if(resultCode != ConnectionResult.Success)
+            using (var client = new HttpClient())
             {
-                if(GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
+                var message = new
                 {
-                    msgText.Text = GoogleApiAvailability.Instance.GetErrorString(resultCode);
+                    to = "/topics/all", // or a specific token
+                    notification = new
+                    {
+                        title = "Test Notification",
+                        body = "This is a test notification from the app."
+                    }
+                };
+
+                var jsonMessage = JsonConvert.SerializeObject(message);
+                var content = new StringContent(jsonMessage, Encoding.UTF8, "application/json");
+
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"key={firebaseServerKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Sender", $"id={senderId}");
+
+                var response = await client.PostAsync("https://fcm.googleapis.com/fcm/send", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Toast.MakeText(this, "Notification sent successfully!", ToastLength.Short).Show();
                 }
                 else
                 {
-                    msgText.Text = "This device is not supported";
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Toast.MakeText(this, $"Failed to send notification: {response.StatusCode}", ToastLength.Short).Show();
                 }
-                return false;
-            }
-            else
-            {
-                msgText.Text = "Google Play Services is available";
-
-                return true;
             }
         }
-        private async Task SendTestNotification()
-        {
-            var client = new HttpClient();
-            var content = new StringContent("{}", Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://phiraapiproject.azurewebsites.net/api/notification", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                Toast.MakeText(this, "Test notification sent", ToastLength.Short).Show();
-            }
-            else
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Failed to send test notification: {response.StatusCode}, Response: {responseContent}");
-                Toast.MakeText(this, $"Failed to send test notification: {response.StatusCode}", ToastLength.Short).Show();
-            }
-        }
-
         private void HideAllViews()
         {
             textMessage.Visibility = ViewStates.Gone;
