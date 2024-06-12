@@ -46,13 +46,13 @@ public class MonoPackageManager_Resources {
 		"Xamarin.Firebase.Common.dll",
 		"Xamarin.Firebase.Encoders.dll",
 		"Xamarin.Firebase.Encoders.Proto.dll",
+		"Xamarin.Firebase.Iid.dll",
 		"Xamarin.Firebase.Messaging.dll",
 		"Xamarin.Google.Android.DataTransport.TransportApi.dll",
 		"Xamarin.Google.Android.DataTransport.TransportBackendCct.dll",
 		"Xamarin.Google.Android.DataTransport.TransportRuntime.dll",
 		"Xamarin.Google.ErrorProne.Annotations.dll",
 		"Xamarin.Google.Guava.ListenableFuture.dll",
-		"Xamarin.GooglePlayServices.Base.dll",
 		"Xamarin.GooglePlayServices.Basement.dll",
 		"Xamarin.GooglePlayServices.Tasks.dll",
 		"Xamarin.JavaX.Inject.dll",
@@ -62,7 +62,6 @@ public class MonoPackageManager_Resources {
 		"Xamarin.KotlinX.Coroutines.Core.dll",
 		"Xamarin.KotlinX.Coroutines.Core.Jvm.dll",
 		"Xamarin.KotlinX.Coroutines.Play.Services.dll",
-		"Xamarin.Firebase.Iid.dll",
 	};
 	public static String[] Dependencies = new String[]{
 	};

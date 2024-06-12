@@ -1339,72 +1339,9 @@ com.google.errorprone.annotations.concurrent.UnlockMethod;com.google.errorprone.
 Google.Common.Util.Concurrent.IListenableFuture, Xamarin.Google.Guava.ListenableFuture;com.google.common.util.concurrent.ListenableFuture
 Google.Common.Util.Concurrent.IListenableFuture;com.google.common.util.concurrent.ListenableFuture
 com.google.common.util.concurrent.ListenableFuture;com.google.common.util.concurrent.ListenableFuture
-Android.Gms.Common.Api.Internal.BaseImplementation+IResultHolder, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.BaseImplementation$ResultHolder
-Android.Gms.Common.Api.Internal.BaseImplementation.IResultHolder;com.google.android.gms.common.api.internal.BaseImplementation$ResultHolder
-com.google.android.gms.common.api.internal.BaseImplementation$ResultHolder;com.google.android.gms.common.api.internal.BaseImplementation$ResultHolder
-Android.Gms.Common.Api.Internal.IConnectionCallbacks, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.ConnectionCallbacks
-Android.Gms.Common.Api.Internal.IConnectionCallbacks;com.google.android.gms.common.api.internal.ConnectionCallbacks
-com.google.android.gms.common.api.internal.ConnectionCallbacks;com.google.android.gms.common.api.internal.ConnectionCallbacks
-Android.Gms.Common.Api.Internal.IOnConnectionFailedListener, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.OnConnectionFailedListener
-Android.Gms.Common.Api.Internal.IOnConnectionFailedListener;com.google.android.gms.common.api.internal.OnConnectionFailedListener
-com.google.android.gms.common.api.internal.OnConnectionFailedListener;com.google.android.gms.common.api.internal.OnConnectionFailedListener
-Android.Gms.Common.Api.Internal.IRemoteCall, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.RemoteCall
-Android.Gms.Common.Api.Internal.IRemoteCall;com.google.android.gms.common.api.internal.RemoteCall
-com.google.android.gms.common.api.internal.RemoteCall;com.google.android.gms.common.api.internal.RemoteCall
-Android.Gms.Common.Api.Internal.ISignInConnectionListener, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.SignInConnectionListener
-Android.Gms.Common.Api.Internal.ISignInConnectionListener;com.google.android.gms.common.api.internal.SignInConnectionListener
-com.google.android.gms.common.api.internal.SignInConnectionListener;com.google.android.gms.common.api.internal.SignInConnectionListener
-Android.Gms.Common.Api.Internal.IZau, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.zau
-Android.Gms.Common.Api.Internal.IZau;com.google.android.gms.common.api.internal.zau
-com.google.android.gms.common.api.internal.zau;com.google.android.gms.common.api.internal.zau
-Android.Gms.Common.Api.Internal.ListenerHolder+INotifier, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.internal.ListenerHolder$Notifier
-Android.Gms.Common.Api.Internal.ListenerHolder.INotifier;com.google.android.gms.common.api.internal.ListenerHolder$Notifier
-com.google.android.gms.common.api.internal.ListenerHolder$Notifier;com.google.android.gms.common.api.internal.ListenerHolder$Notifier
-Android.Gms.Common.Apis.GoogleApiClient+IConnectionCallbacks, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.GoogleApiClient$ConnectionCallbacks
-Android.Gms.Common.Apis.GoogleApiClient.IConnectionCallbacks;com.google.android.gms.common.api.GoogleApiClient$ConnectionCallbacks
-com.google.android.gms.common.api.GoogleApiClient$ConnectionCallbacks;com.google.android.gms.common.api.GoogleApiClient$ConnectionCallbacks
-Android.Gms.Common.Apis.GoogleApiClient+IOnConnectionFailedListener, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.GoogleApiClient$OnConnectionFailedListener
-Android.Gms.Common.Apis.GoogleApiClient.IOnConnectionFailedListener;com.google.android.gms.common.api.GoogleApiClient$OnConnectionFailedListener
-com.google.android.gms.common.api.GoogleApiClient$OnConnectionFailedListener;com.google.android.gms.common.api.GoogleApiClient$OnConnectionFailedListener
-Android.Gms.Common.Apis.Api+IAnyClient, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.Api$AnyClient
-Android.Gms.Common.Apis.Api.IAnyClient;com.google.android.gms.common.api.Api$AnyClient
-com.google.android.gms.common.api.Api$AnyClient;com.google.android.gms.common.api.Api$AnyClient
-Android.Gms.Common.Apis.Api+IClient, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.Api$Client
-Android.Gms.Common.Apis.Api.IClient;com.google.android.gms.common.api.Api$Client
-com.google.android.gms.common.api.Api$Client;com.google.android.gms.common.api.Api$Client
-Android.Gms.Common.Apis.IHasApiKey, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.HasApiKey
-Android.Gms.Common.Apis.IHasApiKey;com.google.android.gms.common.api.HasApiKey
-com.google.android.gms.common.api.HasApiKey;com.google.android.gms.common.api.HasApiKey
-Android.Gms.Common.Apis.PendingResult+IStatusListener, Xamarin.GooglePlayServices.Base;com.google.android.gms.common.api.PendingResult$StatusListener
-Android.Gms.Common.Apis.PendingResult.IStatusListener;com.google.android.gms.common.api.PendingResult$StatusListener
-com.google.android.gms.common.api.PendingResult$StatusListener;com.google.android.gms.common.api.PendingResult$StatusListener
-Android.Gms.Common.Apis.PendingResult+IStatusListenerImplementor, Xamarin.GooglePlayServices.Base;mono.com.google.android.gms.common.api.PendingResult_StatusListenerImplementor
-Android.Gms.Common.Apis.PendingResult.IStatusListenerImplementor;mono.com.google.android.gms.common.api.PendingResult_StatusListenerImplementor
-mono.com.google.android.gms.common.api.PendingResult_StatusListenerImplementor;mono.com.google.android.gms.common.api.PendingResult_StatusListenerImplementor
-Android.Gms.Common.Util.IBiConsumer, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.util.BiConsumer
-Android.Gms.Common.Util.IBiConsumer;com.google.android.gms.common.util.BiConsumer
-com.google.android.gms.common.util.BiConsumer;com.google.android.gms.common.util.BiConsumer
-Android.Gms.Common.Internal.IAccountAccessor, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.internal.IAccountAccessor
-Android.Gms.Common.Internal.IAccountAccessor;com.google.android.gms.common.internal.IAccountAccessor
-com.google.android.gms.common.internal.IAccountAccessor;com.google.android.gms.common.internal.IAccountAccessor
-Android.Gms.Common.Internal.ICancelToken, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.internal.ICancelToken
-Android.Gms.Common.Internal.ICancelToken;com.google.android.gms.common.internal.ICancelToken
-com.google.android.gms.common.internal.ICancelToken;com.google.android.gms.common.internal.ICancelToken
 Android.Gms.Common.Internal.SafeParcel.ISafeParcelable, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.internal.safeparcel.SafeParcelable
 Android.Gms.Common.Internal.SafeParcel.ISafeParcelable;com.google.android.gms.common.internal.safeparcel.SafeParcelable
 com.google.android.gms.common.internal.safeparcel.SafeParcelable;com.google.android.gms.common.internal.safeparcel.SafeParcelable
-Android.Gms.Common.Apis.IResult, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.api.Result
-Android.Gms.Common.Apis.IResult;com.google.android.gms.common.api.Result
-com.google.android.gms.common.api.Result;com.google.android.gms.common.api.Result
-Android.Gms.Common.Apis.IResultCallback, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.api.ResultCallback
-Android.Gms.Common.Apis.IResultCallback;com.google.android.gms.common.api.ResultCallback
-com.google.android.gms.common.api.ResultCallback;com.google.android.gms.common.api.ResultCallback
-Android.Gms.Common.Apis.Internal.ILifecycleFragment, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.api.internal.LifecycleFragment
-Android.Gms.Common.Apis.Internal.ILifecycleFragment;com.google.android.gms.common.api.internal.LifecycleFragment
-com.google.android.gms.common.api.internal.LifecycleFragment;com.google.android.gms.common.api.internal.LifecycleFragment
-Android.Gms.Common.Apis.Internal.IStatusExceptionMapper, Xamarin.GooglePlayServices.Basement;com.google.android.gms.common.api.internal.StatusExceptionMapper
-Android.Gms.Common.Apis.Internal.IStatusExceptionMapper;com.google.android.gms.common.api.internal.StatusExceptionMapper
-com.google.android.gms.common.api.internal.StatusExceptionMapper;com.google.android.gms.common.api.internal.StatusExceptionMapper
 Android.Gms.Tasks.IContinuation, Xamarin.GooglePlayServices.Tasks;com.google.android.gms.tasks.Continuation
 Android.Gms.Tasks.IContinuation;com.google.android.gms.tasks.Continuation
 com.google.android.gms.tasks.Continuation;com.google.android.gms.tasks.Continuation
@@ -1582,9 +1519,6 @@ phirapp.MyMessagingService;crc64d93bfbfb31329c3f.MyMessagingService
 PhirAPP.MyFirebaseIDInstance, PhirAPP;crc64d93bfbfb31329c3f.MyFirebaseIDInstance
 PhirAPP.MyFirebaseIDInstance;crc64d93bfbfb31329c3f.MyFirebaseIDInstance
 phirapp.MyFirebaseIDInstance;crc64d93bfbfb31329c3f.MyFirebaseIDInstance
-PhirAPP.MyFirebaseMessagingService, PhirAPP;crc64d93bfbfb31329c3f.MyFirebaseMessagingService
-PhirAPP.MyFirebaseMessagingService;crc64d93bfbfb31329c3f.MyFirebaseMessagingService
-phirapp.MyFirebaseMessagingService;crc64d93bfbfb31329c3f.MyFirebaseMessagingService
 PhirAPP.ArticleDetailActivity, PhirAPP;crc64d93bfbfb31329c3f.ArticleDetailActivity
 PhirAPP.ArticleDetailActivity;crc64d93bfbfb31329c3f.ArticleDetailActivity
 phirapp.ArticleDetailActivity;crc64d93bfbfb31329c3f.ArticleDetailActivity
@@ -1594,6 +1528,9 @@ phirapp.LoginActivity;crc64d93bfbfb31329c3f.LoginActivity
 PhirAPP.MainActivity, PhirAPP;crc64d93bfbfb31329c3f.MainActivity
 PhirAPP.MainActivity;crc64d93bfbfb31329c3f.MainActivity
 phirapp.MainActivity;crc64d93bfbfb31329c3f.MainActivity
+PhirAPP.MainActivity+OnCompleteListener, PhirAPP;crc64d93bfbfb31329c3f.MainActivity_OnCompleteListener
+PhirAPP.MainActivity.OnCompleteListener;crc64d93bfbfb31329c3f.MainActivity_OnCompleteListener
+phirapp.MainActivity_OnCompleteListener;crc64d93bfbfb31329c3f.MainActivity_OnCompleteListener
 PhirAPP.MainActivity+CompanyAdapter, PhirAPP;crc64d93bfbfb31329c3f.MainActivity_CompanyAdapter
 PhirAPP.MainActivity.CompanyAdapter;crc64d93bfbfb31329c3f.MainActivity_CompanyAdapter
 phirapp.MainActivity_CompanyAdapter;crc64d93bfbfb31329c3f.MainActivity_CompanyAdapter
