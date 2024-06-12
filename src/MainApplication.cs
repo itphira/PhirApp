@@ -16,7 +16,7 @@ namespace PhirApp
         {
             base.OnCreate();
             // Initialize Firebase
-            //FirebaseApp.InitializeApp(this);
+            FirebaseApp.InitializeApp(this);
         }
     }
 }

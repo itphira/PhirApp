@@ -11,9 +11,10 @@ namespace PhirAPP
 {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
-    public class MyMessagingService:FirebaseMessagingService
+    public class MyMessagingService : FirebaseMessagingService
     {
         private readonly string NOTIFICATION_CHANNEL_ID = "com.example.yourapp";
+
         public override void OnMessageReceived(RemoteMessage message)
         {
             if (!message.Data.GetEnumerator().MoveNext())
@@ -36,14 +37,14 @@ namespace PhirAPP
             SendNotification(title, body);
         }
 
-        private void SendNotification(string title, string body) 
+        private void SendNotification(string title, string body)
         {
             NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
 
-            if(Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O) 
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Notification Channel",
-                    Android.App.NotificationImportance.Default);
+                    NotificationImportance.Default);
 
                 notificationChannel.Description = "EDMTDev Channel";
                 notificationChannel.EnableLights(true);
@@ -56,14 +57,14 @@ namespace PhirAPP
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
 
             notificationBuilder.SetAutoCancel(true)
-                .SetDefaults(-1)
+                .SetDefaults((int)NotificationDefaults.All)
                 .SetWhen(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds())
                 .SetContentTitle(title)
                 .SetContentText(body)
                 .SetSmallIcon(Resource.Mipmap.ic_launcher_round)
                 .SetContentInfo("info");
 
-            notificationManager.Notify(new Random().Next(), notificationBuilder.Build() );
+            notificationManager.Notify(new Random().Next(), notificationBuilder.Build());
         }
     }
 }

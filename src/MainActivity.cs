@@ -20,6 +20,7 @@ using Firebase;
 using Android.Gms.Common;
 using Firebase.Iid;
 using Newtonsoft.Json;
+using Firebase.Messaging;
 
 namespace PhirAPP
 {
@@ -43,6 +44,9 @@ namespace PhirAPP
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
+
+            FirebaseMessaging.Instance.SubscribeToTopic("all")
+            .AddOnCompleteListener(new OnCompleteListener());
 
             ISharedPreferences sharedPreferences = GetSharedPreferences("app_settings", FileCreationMode.Private);
             username = sharedPreferences.GetString("username", null);
@@ -72,6 +76,21 @@ namespace PhirAPP
             {
                 await SendTestNotification();
             };
+        }
+
+        private class OnCompleteListener : Java.Lang.Object, Android.Gms.Tasks.IOnCompleteListener
+        {
+            public void OnComplete(Android.Gms.Tasks.Task task)
+            {
+                if (!task.IsSuccessful)
+                {
+                    Console.WriteLine("Subscription to topic failed");
+                }
+                else
+                {
+                    Console.WriteLine("Subscription to topic successful");
+                }
+            }
         }
 
         private async Task SendTestNotification()
