@@ -651,3 +651,6 @@ C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\androidx\proguard
 C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\androidx\proguard\e23f5e22-af38-4b1f-ae78-c980a14d2d47.txt
 C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\androidx\proguard\e3a75ad8-4c65-4a21-9e93-bc8256a448e8.txt
 C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\android\src\crc64d93bfbfb31329c3f\MainActivity_OnCompleteListener.java
+C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\res\layout\activity_notification.xml
+C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\android\src\crc64d93bfbfb31329c3f\NotificationAdapter.java
+C:\Users\it.soporte\source\repos\PhirAPP\PhirAPP\obj\Debug\130\android\src\crc64d93bfbfb31329c3f\CompanyAdapter.java

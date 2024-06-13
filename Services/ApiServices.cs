@@ -53,12 +53,58 @@ namespace PhirApp.Services
                 return new List<Article>();
             }
         }
+        public static async Task<List<Notification>> FetchNotificationsAsync()
+        {
+            try
+            {
+                var response = await client.GetAsync("api/notifications");
+                var json = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<List<Notification>>(json);
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to fetch notifications: {response.StatusCode}");
+                    return new List<Notification>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in FetchNotificationsAsync: {ex.Message}");
+                return new List<Notification>();
+            }
+        }
+
+        public static async Task PostNotification(Notification notification)
+        {
+            var json = JsonConvert.SerializeObject(notification);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync("api/notifications", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Failed to post notification: {response.StatusCode}, Response: {responseContent}");
+                    throw new Exception($"Server error: {responseContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in PostNotification: {ex.Message}");
+                throw;
+            }
+        }
         public static async Task<List<Company>> FetchCompaniesAsync()
         {
             try
             {
                 HttpResponseMessage response = await client.GetAsync("api/companies");
-                string json = await response.Content.ReadAsStringAsync(); // Get the JSON string
+                string json = await response.Content.ReadAsStringAsync();
+                Log.Debug("ApiService", $"Response JSON: {json}");
+
                 if (response.IsSuccessStatusCode)
                 {
                     Log.Info("ApiService", "Successfully fetched companies.");
@@ -67,7 +113,6 @@ namespace PhirApp.Services
                 else
                 {
                     Log.Error("ApiService", $"Failed to fetch companies: {response.StatusCode}");
-                    Log.Debug("ApiService", $"Response Content: {json}"); // Log the raw response to understand what went wrong
                     return new List<Company>();
                 }
             }
@@ -77,6 +122,8 @@ namespace PhirApp.Services
                 return new List<Company>();
             }
         }
+
+
         public static async Task<List<Article>> FetchArticlesForCompanyAsync(int companyId)
         {
             try

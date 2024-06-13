@@ -30,11 +30,10 @@ namespace PhirAPP
         TextView textMessage;
         WebView webView;
         ListView listView;
+        ListView listViewNot;
         private string username;
         private bool displayingCompanies = true;
         private ProgressBar progressBar;
-        private TextView msgText;
-        private Button testNotificationButton;
 
         private string firebaseServerKey = "AIzaSyAuFyNPHSoab6ibC_fqQegdOHgqdfnDHJ4";
         private string senderId = "1038552327464";
@@ -42,18 +41,19 @@ namespace PhirAPP
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
+            // Initialize Firebase messaging
             FirebaseMessaging.Instance.SubscribeToTopic("all")
-            .AddOnCompleteListener(new OnCompleteListener());
+                .AddOnCompleteListener(new OnCompleteListener());
 
+            // Get username from shared preferences
             ISharedPreferences sharedPreferences = GetSharedPreferences("app_settings", FileCreationMode.Private);
             username = sharedPreferences.GetString("username", null);
 
             if (string.IsNullOrEmpty(username))
             {
-                Toast.MakeText(this, "Porfavor, inicia sesión para continuar.", ToastLength.Short).Show();
+                Toast.MakeText(this, "Por favor, inicia sesión para continuar.", ToastLength.Short).Show();
                 Finish();
                 return;
             }
@@ -61,22 +61,25 @@ namespace PhirAPP
             SetupViews();
             LoadHomePage();
         }
-
         private void SetupViews()
         {
             textMessage = FindViewById<TextView>(Resource.Id.message);
             webView = FindViewById<WebView>(Resource.Id.webView);
             listView = FindViewById<ListView>(Resource.Id.articleListView);
+            listViewNot = FindViewById<ListView>(Resource.Id.notificationListView);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
-            testNotificationButton = FindViewById<Button>(Resource.Id.testNotificationButton);
             navigation.SetOnNavigationItemSelectedListener(this);
 
-            testNotificationButton.Click += async (sender, e) =>
+            // Log to check if views are initialized properly
+            Log.Debug("MainActivity", $"textMessage: {(textMessage != null)}, webView: {(webView != null)}, listView: {(listView != null)}, listViewNot: {(listViewNot != null)}, progressBar: {(progressBar != null)}");
+
+            if (listView == null)
             {
-                await SendTestNotification();
-            };
+                Log.Error("MainActivity", "listView is null after initialization");
+            }
         }
+
 
         private class OnCompleteListener : Java.Lang.Object, Android.Gms.Tasks.IOnCompleteListener
         {
@@ -92,45 +95,12 @@ namespace PhirAPP
                 }
             }
         }
-
-        private async Task SendTestNotification()
-        {
-            using (var client = new HttpClient())
-            {
-                var message = new
-                {
-                    to = "/topics/all", // or a specific token
-                    notification = new
-                    {
-                        title = "Test Notification",
-                        body = "This is a test notification from the app."
-                    }
-                };
-
-                var jsonMessage = JsonConvert.SerializeObject(message);
-                var content = new StringContent(jsonMessage, Encoding.UTF8, "application/json");
-
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"key={firebaseServerKey}");
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Sender", $"id={senderId}");
-
-                var response = await client.PostAsync("https://fcm.googleapis.com/fcm/send", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Toast.MakeText(this, "Notification sent successfully!", ToastLength.Short).Show();
-                }
-                else
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-                    Toast.MakeText(this, $"Failed to send notification: {response.StatusCode}", ToastLength.Short).Show();
-                }
-            }
-        }
         private void HideAllViews()
         {
             textMessage.Visibility = ViewStates.Gone;
             webView.Visibility = ViewStates.Gone;
             listView.Visibility = ViewStates.Gone;
+            listViewNot.Visibility = ViewStates.Gone;
             FrameLayout container = FindViewById<FrameLayout>(Resource.Id.fragment_container);
             container.Visibility = ViewStates.Gone;
         }
@@ -157,46 +127,13 @@ namespace PhirAPP
                     LoadDashboardPage();
                     break;
                 case Resource.Id.navigation_notifications:
-                    textMessage.Text = "Notificaciones";
-                    textMessage.Visibility = ViewStates.Visible;
+                    listViewNot.Visibility = ViewStates.Visible;
+                    LoadNotificationPage();
                     break;
                 default:
                     return false;
             }
             return true;
-        }
-
-        public class CompanyAdapter : ArrayAdapter<Company>
-        {
-            public List<Company> Companies { get; private set; }
-
-            public CompanyAdapter(Context context, List<Company> companies)
-                : base(context, 0, companies)
-            {
-                Companies = companies;
-            }
-
-            public override View GetView(int position, View convertView, ViewGroup parent)
-            {
-                if (convertView == null)
-                {
-                    convertView = LayoutInflater.From(Context).Inflate(Resource.Layout.list_item_company, parent, false);
-                }
-
-                var imageView = convertView.FindViewById<ImageView>(Resource.Id.companyImageView);
-                var titleView = convertView.FindViewById<TextView>(Resource.Id.companyTitleView);
-
-                var company = Companies[position];
-                titleView.Text = company.Title;
-
-                if (company.Image != null) // Assuming Image is a byte array
-                {
-                    Bitmap bitmap = BitmapFactory.DecodeByteArray(company.Image, 0, company.Image.Length);
-                    imageView.SetImageBitmap(bitmap);
-                }
-
-                return convertView;
-            }
         }
 
         public class ArticleAdapter : ArrayAdapter<Article>
@@ -335,14 +272,16 @@ namespace PhirAPP
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
-
         private async void LoadHomePage()
         {
             // Show progress bar
             progressBar.Visibility = ViewStates.Visible;
             try
             {
+                Log.Debug("MainActivity", "Fetching companies...");
                 var companies = await ApiService.FetchCompaniesAsync();
+                Log.Debug("MainActivity", $"Fetched companies: {companies?.Count ?? 0}");
+
                 if (companies == null || !companies.Any())
                 {
                     textMessage.Text = "No hay compañias disponibles.";
@@ -351,12 +290,23 @@ namespace PhirAPP
                 }
                 else
                 {
+                    Log.Debug("MainActivity", "Setting up adapter...");
                     CompanyAdapter adapter = new CompanyAdapter(this, companies);
-                    listView.Adapter = adapter;
-                    listView.ItemClick -= ListView_ItemClick;
-                    listView.ItemClick += CompanyListView_ItemClick;
-                    textMessage.Visibility = ViewStates.Gone;
-                    listView.Visibility = ViewStates.Visible;
+                    Log.Debug("MainActivity", "CompanyAdapter instantiated");
+
+                    if (adapter == null)
+                    {
+                        Log.Error("MainActivity", "Adapter is null");
+                    }
+                    else
+                    {
+                        Log.Debug("MainActivity", "Adapter setup complete");
+                        listView.Adapter = adapter;
+                        listView.ItemClick -= ListView_ItemClick;
+                        listView.ItemClick += CompanyListView_ItemClick;
+                        textMessage.Visibility = ViewStates.Gone;
+                        listView.Visibility = ViewStates.Visible;
+                    }
                 }
             }
             catch (Exception ex)
@@ -372,6 +322,65 @@ namespace PhirAPP
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
+
+        private async void LoadNotificationPage()
+        {
+            // Show progress bar
+            progressBar.Visibility = ViewStates.Visible;
+            try
+            {
+                var notifications = await ApiService.FetchNotificationsAsync();
+                if (notifications == null || !notifications.Any())
+                {
+                    textMessage.Text = "No hay notificaciones disponibles.";
+                    textMessage.Visibility = ViewStates.Visible;
+                    listViewNot.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    NotificationAdapter adapter = new NotificationAdapter(this, notifications);
+                    listViewNot.Adapter = adapter;
+                    listViewNot.ItemClick -= NotificationListView_ItemClick;
+                    listViewNot.ItemClick += NotificationListView_ItemClick;
+                    textMessage.Visibility = ViewStates.Gone;
+                    listViewNot.Visibility = ViewStates.Visible;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("MainActivity", "Error cargando notificaciones: " + ex.Message);
+                textMessage.Text = "Error cargando notificaciones: " + ex.Message;
+                textMessage.Visibility = ViewStates.Visible;
+                listViewNot.Visibility = ViewStates.Gone;
+            }
+            finally
+            {
+                // Hide progress bar
+                progressBar.Visibility = ViewStates.Gone;
+            }
+        }
+
+        private void NotificationListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var notification = ((NotificationAdapter)listViewNot.Adapter).Notifications[e.Position];
+            if (!string.IsNullOrEmpty(notification.Link))
+            {
+                Android.Content.Intent intent;
+                if (notification.Link.StartsWith("http"))
+                {
+                    // Open a web link
+                    intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(notification.Link));
+                }
+                else
+                {
+                    // Open an in-app activity
+                    intent = new Intent(this, typeof(ArticleDetailActivity));
+                    intent.PutExtra("articleId", int.Parse(notification.Link)); // Assuming Link contains the article ID
+                }
+                StartActivity(intent);
+            }
+        }
+
 
         private async void LoadArticlesForCompany(int companyId)
         {

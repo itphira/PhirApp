@@ -144,11 +144,11 @@ public final class R {
 		public static final int tag_transition_group = 0x7f0801e9;
 		public static final int tag_unhandled_key_event_manager = 0x7f0801ea;
 		public static final int tag_unhandled_key_listeners = 0x7f0801eb;
-		public static final int text = 0x7f0801ee;
-		public static final int text2 = 0x7f0801ef;
-		public static final int time = 0x7f080200;
-		public static final int title = 0x7f080201;
-		public static final int top = 0x7f080205;
+		public static final int text = 0x7f0801ed;
+		public static final int text2 = 0x7f0801ee;
+		public static final int time = 0x7f0801ff;
+		public static final int title = 0x7f080200;
+		public static final int top = 0x7f080204;
 	}
 	public static final class integer {
 		public static final int google_play_services_version = 0x7f090008;

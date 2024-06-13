@@ -4,6 +4,7 @@ background;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher.xml
 background;obj\Debug\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
 Button;obj\Debug\130\res\layout\activity_article_detail.xml
 Button;obj\Debug\130\res\layout\activity_main.xml
+Button;obj\Debug\130\res\layout\activity_notification.xml
 Button;obj\Debug\130\res\layout\activity_profile.xml
 Button;obj\Debug\130\res\layout\comment_item.xml
 Button;obj\Debug\130\res\layout\login_activity.xml
@@ -14,6 +15,7 @@ com.google.android.material.bottomnavigation.BottomNavigationView;obj\Debug\130\
 corners;obj\Debug\130\res\drawable\comment_background.xml
 dimen;obj\Debug\130\res\values\dimens.xml
 EditText;obj\Debug\130\res\layout\activity_article_detail.xml
+EditText;obj\Debug\130\res\layout\activity_notification.xml
 EditText;obj\Debug\130\res\layout\activity_profile.xml
 EditText;obj\Debug\130\res\layout\comment_item.xml
 EditText;obj\Debug\130\res\layout\login_activity.xml
@@ -25,11 +27,13 @@ FrameLayout;obj\Debug\130\res\layout\activity_main.xml
 ImageButton;obj\Debug\130\res\layout\activity_article_detail.xml
 ImageButton;obj\Debug\130\res\layout\comment_item.xml
 ImageView;obj\Debug\130\res\layout\activity_article_detail.xml
+ImageView;obj\Debug\130\res\layout\activity_notification.xml
 ImageView;obj\Debug\130\res\layout\list_item_article.xml
 ImageView;obj\Debug\130\res\layout\list_item_company.xml
 item;obj\Debug\130\res\menu\navigation.xml
 item;obj\Debug\130\res\values\styles.xml
 LinearLayout;obj\Debug\130\res\layout\activity_article_detail.xml
+LinearLayout;obj\Debug\130\res\layout\activity_notification.xml
 LinearLayout;obj\Debug\130\res\layout\activity_profile.xml
 LinearLayout;obj\Debug\130\res\layout\comment_item.xml
 LinearLayout;obj\Debug\130\res\layout\list_item_article.xml
@@ -54,6 +58,7 @@ resources;obj\Debug\130\res\values\ic_launcher_background.xml
 resources;obj\Debug\130\res\values\strings.xml
 resources;obj\Debug\130\res\values\styles.xml
 ScrollView;obj\Debug\130\res\layout\activity_article_detail.xml
+ScrollView;obj\Debug\130\res\layout\activity_notification.xml
 ScrollView;obj\Debug\130\res\layout\activity_profile.xml
 shape;obj\Debug\130\res\drawable\comment_background.xml
 solid;obj\Debug\130\res\drawable\comment_background.xml
@@ -62,6 +67,7 @@ string;obj\Debug\130\res\values\strings.xml
 style;obj\Debug\130\res\values\styles.xml
 TextView;obj\Debug\130\res\layout\activity_article_detail.xml
 TextView;obj\Debug\130\res\layout\activity_main.xml
+TextView;obj\Debug\130\res\layout\activity_notification.xml
 TextView;obj\Debug\130\res\layout\activity_profile.xml
 TextView;obj\Debug\130\res\layout\comment_item.xml
 TextView;obj\Debug\130\res\layout\list_item_article.xml

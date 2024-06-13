@@ -76,6 +76,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Notifications.cs" />
     <Compile Include="Models\Companies.cs" />
     <Compile Include="Models\CommentAdapter.cs" />
     <Compile Include="Models\ArticleResponse.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="src\MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\CompanyAdapter.cs" />
+    <Compile Include="src\NotificationAdapter.cs" />
     <Compile Include="src\MainApplication.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +226,10 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\list_item_company.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\activity_notification.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
