@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
     
     <ImageView
         android:id="@+id/companyImageView"
@@ -14,6 +15,7 @@
         android:id="@+id/companyTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="18sp" />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:padding="8dp" />
 </LinearLayout>
