@@ -3,7 +3,6 @@ adaptive-icon;obj\Release\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
 background;obj\Release\130\res\mipmap-anydpi-v26\ic_launcher.xml
 background;obj\Release\130\res\mipmap-anydpi-v26\ic_launcher_round.xml
 Button;obj\Release\130\res\layout\activity_article_detail.xml
-Button;obj\Release\130\res\layout\activity_main.xml
 Button;obj\Release\130\res\layout\activity_profile.xml
 Button;obj\Release\130\res\layout\comment_item.xml
 Button;obj\Release\130\res\layout\login_activity.xml
@@ -30,6 +29,7 @@ ImageView;obj\Release\130\res\layout\list_item_company.xml
 item;obj\Release\130\res\menu\navigation.xml
 item;obj\Release\130\res\values\styles.xml
 LinearLayout;obj\Release\130\res\layout\activity_article_detail.xml
+LinearLayout;obj\Release\130\res\layout\activity_notification.xml
 LinearLayout;obj\Release\130\res\layout\activity_profile.xml
 LinearLayout;obj\Release\130\res\layout\comment_item.xml
 LinearLayout;obj\Release\130\res\layout\list_item_article.xml
@@ -62,6 +62,7 @@ string;obj\Release\130\res\values\strings.xml
 style;obj\Release\130\res\values\styles.xml
 TextView;obj\Release\130\res\layout\activity_article_detail.xml
 TextView;obj\Release\130\res\layout\activity_main.xml
+TextView;obj\Release\130\res\layout\activity_notification.xml
 TextView;obj\Release\130\res\layout\activity_profile.xml
 TextView;obj\Release\130\res\layout\comment_item.xml
 TextView;obj\Release\130\res\layout\list_item_article.xml

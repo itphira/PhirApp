@@ -9,18 +9,12 @@ using Android.Views;
 using PhirApp.Services;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Android.Graphics;
 using Android.Util;
+using Firebase.Messaging;
+using Android.Graphics;
 using Android.Webkit;
 using System.Linq;
-using Firebase;
-using Android.Gms.Common;
-using Firebase.Iid;
-using Newtonsoft.Json;
-using Firebase.Messaging;
 
 namespace PhirAPP
 {
@@ -35,17 +29,13 @@ namespace PhirAPP
         private bool displayingCompanies = true;
         private ProgressBar progressBar;
 
-        private string firebaseServerKey = "AIzaSyAuFyNPHSoab6ibC_fqQegdOHgqdfnDHJ4";
-        private string senderId = "1038552327464";
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
             // Initialize Firebase messaging
-            FirebaseMessaging.Instance.SubscribeToTopic("all")
-                .AddOnCompleteListener(new OnCompleteListener());
+            FirebaseMessaging.Instance.SubscribeToTopic("all").AddOnCompleteListener(new OnCompleteListener());
 
             // Get username from shared preferences
             ISharedPreferences sharedPreferences = GetSharedPreferences("app_settings", FileCreationMode.Private);
@@ -61,6 +51,7 @@ namespace PhirAPP
             SetupViews();
             LoadHomePage();
         }
+
         private void SetupViews()
         {
             textMessage = FindViewById<TextView>(Resource.Id.message);
@@ -70,16 +61,7 @@ namespace PhirAPP
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
             navigation.SetOnNavigationItemSelectedListener(this);
-
-            // Log to check if views are initialized properly
-            Log.Debug("MainActivity", $"textMessage: {(textMessage != null)}, webView: {(webView != null)}, listView: {(listView != null)}, listViewNot: {(listViewNot != null)}, progressBar: {(progressBar != null)}");
-
-            if (listView == null)
-            {
-                Log.Error("MainActivity", "listView is null after initialization");
-            }
         }
-
 
         private class OnCompleteListener : Java.Lang.Object, Android.Gms.Tasks.IOnCompleteListener
         {
@@ -95,6 +77,7 @@ namespace PhirAPP
                 }
             }
         }
+
         private void HideAllViews()
         {
             textMessage.Visibility = ViewStates.Gone;
@@ -138,13 +121,14 @@ namespace PhirAPP
 
         public class ArticleAdapter : ArrayAdapter<Article>
         {
-            public List<Article> Articles { get; private set; } // Expose the list for external access
+            public List<Article> Articles { get; private set; }
 
             public ArticleAdapter(Activity context, List<Article> articles)
                 : base(context, Resource.Layout.list_item_article, articles)
             {
                 Articles = articles;
             }
+
             public override View GetView(int position, View convertView, ViewGroup parent)
             {
                 var view = convertView ?? LayoutInflater.From(Context).Inflate(Resource.Layout.list_item_article, parent, false);
@@ -169,6 +153,7 @@ namespace PhirAPP
                 return view;
             }
         }
+
         private void InitializeDashboardViews(View dashboardView)
         {
             TextView textUsername = dashboardView.FindViewById<TextView>(Resource.Id.textUsername);
@@ -184,7 +169,6 @@ namespace PhirAPP
             {
                 if (currentPasswordInput.Visibility == ViewStates.Visible)
                 {
-                    // Hide password fields and change button text to "Cambiar contraseña"
                     currentPasswordInput.Visibility = ViewStates.Gone;
                     newPasswordInput.Visibility = ViewStates.Gone;
                     confirmPasswordInput.Visibility = ViewStates.Gone;
@@ -193,7 +177,6 @@ namespace PhirAPP
                 }
                 else
                 {
-                    // Show password fields and change button text to "Cancelar"
                     currentPasswordInput.Visibility = ViewStates.Visible;
                     newPasswordInput.Visibility = ViewStates.Visible;
                     confirmPasswordInput.Visibility = ViewStates.Visible;
@@ -230,17 +213,14 @@ namespace PhirAPP
             Button logoutButton = dashboardView.FindViewById<Button>(Resource.Id.logoutButton);
             logoutButton.Click += (sender, e) =>
             {
-                // Clear login state
                 var editor = GetSharedPreferences("app_settings", FileCreationMode.Private).Edit();
                 editor.Remove("username");
                 editor.Apply();
 
-                // Redirect to login activity
                 StartActivity(new Intent(this, typeof(LoginActivity)));
                 Finish();
             };
         }
-
 
         private void ResetPasswordFields(EditText currentPasswordInput, EditText newPasswordInput, EditText confirmPasswordInput, Button submitChangePasswordButton, Button changePasswordButton)
         {
@@ -256,7 +236,6 @@ namespace PhirAPP
 
         private async void LoadDashboardPage()
         {
-            // Show progress bar
             progressBar.Visibility = ViewStates.Visible;
             try
             {
@@ -268,19 +247,16 @@ namespace PhirAPP
             }
             finally
             {
-                // Hide progress bar
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
+
         private async void LoadHomePage()
         {
-            // Show progress bar
             progressBar.Visibility = ViewStates.Visible;
             try
             {
-                Log.Debug("MainActivity", "Fetching companies...");
                 var companies = await ApiService.FetchCompaniesAsync();
-                Log.Debug("MainActivity", $"Fetched companies: {companies?.Count ?? 0}");
 
                 if (companies == null || !companies.Any())
                 {
@@ -290,23 +266,13 @@ namespace PhirAPP
                 }
                 else
                 {
-                    Log.Debug("MainActivity", "Setting up adapter...");
                     CompanyAdapter adapter = new CompanyAdapter(this, companies);
-                    Log.Debug("MainActivity", "CompanyAdapter instantiated");
 
-                    if (adapter == null)
-                    {
-                        Log.Error("MainActivity", "Adapter is null");
-                    }
-                    else
-                    {
-                        Log.Debug("MainActivity", "Adapter setup complete");
-                        listView.Adapter = adapter;
-                        listView.ItemClick -= ListView_ItemClick;
-                        listView.ItemClick += CompanyListView_ItemClick;
-                        textMessage.Visibility = ViewStates.Gone;
-                        listView.Visibility = ViewStates.Visible;
-                    }
+                    listView.Adapter = adapter;
+                    listView.ItemClick -= CompanyListView_ItemClick;
+                    listView.ItemClick += CompanyListView_ItemClick;
+                    textMessage.Visibility = ViewStates.Gone;
+                    listView.Visibility = ViewStates.Visible;
                 }
             }
             catch (Exception ex)
@@ -318,14 +284,12 @@ namespace PhirAPP
             }
             finally
             {
-                // Hide progress bar
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
 
         private async void LoadNotificationPage()
         {
-            // Show progress bar
             progressBar.Visibility = ViewStates.Visible;
             try
             {
@@ -355,7 +319,6 @@ namespace PhirAPP
             }
             finally
             {
-                // Hide progress bar
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
@@ -365,38 +328,33 @@ namespace PhirAPP
             var notification = ((NotificationAdapter)listViewNot.Adapter).Notifications[e.Position];
             if (!string.IsNullOrEmpty(notification.Link))
             {
-                Android.Content.Intent intent;
+                Intent intent;
                 if (notification.Link.StartsWith("http"))
                 {
-                    // Open a web link
                     intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(notification.Link));
                 }
                 else
                 {
-                    // Open an in-app activity
                     intent = new Intent(this, typeof(ArticleDetailActivity));
-                    intent.PutExtra("articleId", int.Parse(notification.Link)); // Assuming Link contains the article ID
+                    intent.PutExtra("articleId", int.Parse(notification.Link));
                 }
                 StartActivity(intent);
             }
         }
 
-
         private async void LoadArticlesForCompany(int companyId)
         {
-            // Show progress bar
             progressBar.Visibility = ViewStates.Visible;
             try
             {
                 var articles = await ApiService.FetchArticlesForCompanyAsync(companyId);
                 if (articles.Any())
                 {
-                    articles.Reverse(); // Assuming newer articles should appear first
+                    articles.Reverse();
                     ArticleAdapter adapter = new ArticleAdapter(this, articles);
                     listView.Adapter = adapter;
-                    // Make sure to set the correct item click listener for articles
-                    listView.ItemClick -= CompanyListView_ItemClick; // Remove company click listener
-                    listView.ItemClick += ListView_ItemClick; // Ensure this is set for articles
+                    listView.ItemClick -= CompanyListView_ItemClick;
+                    listView.ItemClick += ListView_ItemClick;
                 }
                 else
                 {
@@ -410,7 +368,6 @@ namespace PhirAPP
             }
             finally
             {
-                // Hide progress bar
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
@@ -418,7 +375,7 @@ namespace PhirAPP
         private void CompanyListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var company = ((CompanyAdapter)listView.Adapter).Companies[e.Position];
-            displayingCompanies = false; // Now we are going to display articles, so update the flag
+            displayingCompanies = false;
             LoadArticlesForCompany(company.Id);
         }
 
@@ -430,11 +387,11 @@ namespace PhirAPP
                 if (adapter != null)
                 {
                     var article = adapter.Articles[e.Position];
-                    Android.Content.Intent intent = new Android.Content.Intent(this, typeof(ArticleDetailActivity));
+                    Intent intent = new Intent(this, typeof(ArticleDetailActivity));
                     intent.PutExtra("title", article.Title);
                     intent.PutExtra("text", article.Text);
                     intent.PutExtra("imagePath", SaveImageInternalStorage(ConvertBase64ToBitmap(article.Image)));
-                    intent.PutExtra("articleId", article.Id);  // Ensure ID is converted to string if it's not already
+                    intent.PutExtra("articleId", article.Id);
                     StartActivity(intent);
                 }
                 else
@@ -453,7 +410,6 @@ namespace PhirAPP
         {
             if (!displayingCompanies)
             {
-                // If displaying articles, load companies list instead of going back to login
                 LoadHomePage();
                 displayingCompanies = true;
             }

@@ -18,11 +18,11 @@ target triple = "armv7-unknown-linux-android"
 @__CompressedAssemblyDescriptor_data_1 = internal global [8704 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_2 = internal global [52736 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_3 = internal global [56832 x i8] zeroinitializer, align 1
-@__CompressedAssemblyDescriptor_data_4 = internal global [1755648 x i8] zeroinitializer, align 1
+@__CompressedAssemblyDescriptor_data_4 = internal global [1735168 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_5 = internal global [121856 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_6 = internal global [690176 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_7 = internal global [1406464 x i8] zeroinitializer, align 1
-@__CompressedAssemblyDescriptor_data_8 = internal global [402432 x i8] zeroinitializer, align 1
+@__CompressedAssemblyDescriptor_data_8 = internal global [407552 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_9 = internal global [106496 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_10 = internal global [5632 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_11 = internal global [50176 x i8] zeroinitializer, align 1
@@ -66,7 +66,7 @@ target triple = "armv7-unknown-linux-android"
 @__CompressedAssemblyDescriptor_data_49 = internal global [14848 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_50 = internal global [16384 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_51 = internal global [10752 x i8] zeroinitializer, align 1
-@__CompressedAssemblyDescriptor_data_52 = internal global [26112 x i8] zeroinitializer, align 1
+@__CompressedAssemblyDescriptor_data_52 = internal global [24064 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_53 = internal global [32768 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_54 = internal global [8704 x i8] zeroinitializer, align 1
 @__CompressedAssemblyDescriptor_data_55 = internal global [10240 x i8] zeroinitializer, align 1
@@ -120,9 +120,9 @@ target triple = "armv7-unknown-linux-android"
 	}, 
 	; 4
 	%struct.CompressedAssemblyDescriptor {
-		i32 1755648, ; uncompressed_file_size
+		i32 1735168, ; uncompressed_file_size
 		i8 0, ; loaded
-		i8* getelementptr inbounds ([1755648 x i8], [1755648 x i8]* @__CompressedAssemblyDescriptor_data_4, i32 0, i32 0); data
+		i8* getelementptr inbounds ([1735168 x i8], [1735168 x i8]* @__CompressedAssemblyDescriptor_data_4, i32 0, i32 0); data
 	}, 
 	; 5
 	%struct.CompressedAssemblyDescriptor {
@@ -144,9 +144,9 @@ target triple = "armv7-unknown-linux-android"
 	}, 
 	; 8
 	%struct.CompressedAssemblyDescriptor {
-		i32 402432, ; uncompressed_file_size
+		i32 407552, ; uncompressed_file_size
 		i8 0, ; loaded
-		i8* getelementptr inbounds ([402432 x i8], [402432 x i8]* @__CompressedAssemblyDescriptor_data_8, i32 0, i32 0); data
+		i8* getelementptr inbounds ([407552 x i8], [407552 x i8]* @__CompressedAssemblyDescriptor_data_8, i32 0, i32 0); data
 	}, 
 	; 9
 	%struct.CompressedAssemblyDescriptor {
@@ -408,9 +408,9 @@ target triple = "armv7-unknown-linux-android"
 	}, 
 	; 52
 	%struct.CompressedAssemblyDescriptor {
-		i32 26112, ; uncompressed_file_size
+		i32 24064, ; uncompressed_file_size
 		i8 0, ; loaded
-		i8* getelementptr inbounds ([26112 x i8], [26112 x i8]* @__CompressedAssemblyDescriptor_data_52, i32 0, i32 0); data
+		i8* getelementptr inbounds ([24064 x i8], [24064 x i8]* @__CompressedAssemblyDescriptor_data_52, i32 0, i32 0); data
 	}, 
 	; 53
 	%struct.CompressedAssemblyDescriptor {

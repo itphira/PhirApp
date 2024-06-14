@@ -34,7 +34,7 @@ namespace PhirAPP
                 var company = Companies[position];
                 titleView.Text = company.Title;
 
-                if (company.Image != null) // Assuming Image is a byte array
+                if (company.Image != null)
                 {
                     Bitmap bitmap = BitmapFactory.DecodeByteArray(company.Image, 0, company.Image.Length);
                     imageView.SetImageBitmap(bitmap);
@@ -49,5 +49,4 @@ namespace PhirAPP
             }
         }
     }
-
 }
