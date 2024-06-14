@@ -36,6 +36,7 @@ obj/
 *.ap_*
 *.keystore
 *.modeswitch
+*.zip
 
 # Android specific files
 .gradle/
@@ -55,3 +56,47 @@ build/
 captures/
 .externalNativeBuild/
 cxx/
+*.apk
+*.ap_*
+*.keystore
+*.jks
+*.bak
+*.original
+output.json
+devices.cache
+layout_*.xml.flat
+
+# IntelliJ IDEA
+*.iml
+.idea/
+.idea/*
+
+# Node.js
+node_modules/
+
+# Environment-specific files
+.env
+.env.*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+.Spotlight-V100
+.Trashes
+
+# Files that might appear during development
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+
+# Build generated files
+com.example.yourapp.apk
+com.example.yourapp-Signed.apk
+classes.zip
