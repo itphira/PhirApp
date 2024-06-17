@@ -9,12 +9,12 @@ using Android.Views;
 using PhirApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Android.Graphics;
 using Android.Util;
 using Firebase.Messaging;
-using Android.Graphics;
 using Android.Webkit;
-using System.Linq;
 
 namespace PhirAPP
 {
@@ -26,7 +26,6 @@ namespace PhirAPP
         ListView listView;
         ListView listViewNot;
         private string username;
-        private bool displayingCompanies = true;
         private ProgressBar progressBar;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -35,7 +34,8 @@ namespace PhirAPP
             SetContentView(Resource.Layout.activity_main);
 
             // Initialize Firebase messaging
-            FirebaseMessaging.Instance.SubscribeToTopic("all").AddOnCompleteListener(new OnCompleteListener());
+            FirebaseMessaging.Instance.SubscribeToTopic("all")
+                .AddOnCompleteListener(new OnCompleteListener());
 
             // Get username from shared preferences
             ISharedPreferences sharedPreferences = GetSharedPreferences("app_settings", FileCreationMode.Private);
@@ -50,6 +50,17 @@ namespace PhirAPP
 
             SetupViews();
             LoadHomePage();
+
+            // Check if started from a notification
+            if (Intent.HasExtra("articleId") && Intent.HasExtra("parentId"))
+            {
+                int articleId = Intent.GetIntExtra("articleId", -1);
+                int parentId = Intent.GetIntExtra("parentId", -1);
+                if (articleId != -1 && parentId != -1)
+                {
+                    Task.Run(() => NavigateToArticleDirectly(articleId));
+                }
+            }
         }
 
         private void SetupViews()
@@ -137,6 +148,7 @@ namespace PhirAPP
                 var article = Articles[position];
 
                 titleView.Text = article.Title;
+
                 if (!string.IsNullOrEmpty(article.Image))
                 {
                     try
@@ -146,7 +158,7 @@ namespace PhirAPP
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("ArticleAdapter", "Error ajuste de imagen: " + ex.Message);
+                        Log.Error("ArticleAdapter", "Error setting image: " + ex.Message);
                     }
                 }
 
@@ -173,7 +185,7 @@ namespace PhirAPP
                     newPasswordInput.Visibility = ViewStates.Gone;
                     confirmPasswordInput.Visibility = ViewStates.Gone;
                     submitChangePasswordButton.Visibility = ViewStates.Gone;
-                    changePasswordButton.Text = "Cambiar contraseña";
+                    changePasswordButton.Text = "Change Password";
                 }
                 else
                 {
@@ -181,7 +193,7 @@ namespace PhirAPP
                     newPasswordInput.Visibility = ViewStates.Visible;
                     confirmPasswordInput.Visibility = ViewStates.Visible;
                     submitChangePasswordButton.Visibility = ViewStates.Visible;
-                    changePasswordButton.Text = "Cancelar";
+                    changePasswordButton.Text = "Cancel";
                 }
             };
 
@@ -196,17 +208,17 @@ namespace PhirAPP
                     bool result = await ApiService.ChangePassword(this, username, currentPassword, newPassword, confirmPassword);
                     if (result)
                     {
-                        Toast.MakeText(this, "Contraseña cambiada correctamente.", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Password changed successfully.", ToastLength.Short).Show();
                         ResetPasswordFields(currentPasswordInput, newPasswordInput, confirmPasswordInput, submitChangePasswordButton, changePasswordButton);
                     }
                     else
                     {
-                        Toast.MakeText(this, "Error al cambiar la contraseña. Comprueba tu contraseña actual.", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Error changing password. Check your current password.", ToastLength.Short).Show();
                     }
                 }
                 else
                 {
-                    Toast.MakeText(this, "La contraseñas no coinciden o están vacías", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Passwords do not match or are empty", ToastLength.Short).Show();
                 }
             };
 
@@ -231,7 +243,7 @@ namespace PhirAPP
             newPasswordInput.Visibility = ViewStates.Gone;
             confirmPasswordInput.Visibility = ViewStates.Gone;
             submitChangePasswordButton.Visibility = ViewStates.Gone;
-            changePasswordButton.Text = "Cambiar contraseña";
+            changePasswordButton.Text = "Change Password";
         }
 
         private async void LoadDashboardPage()
@@ -260,16 +272,15 @@ namespace PhirAPP
 
                 if (companies == null || !companies.Any())
                 {
-                    textMessage.Text = "No hay compañias disponibles.";
+                    textMessage.Text = "No companies available.";
                     textMessage.Visibility = ViewStates.Visible;
                     listView.Visibility = ViewStates.Gone;
                 }
                 else
                 {
                     CompanyAdapter adapter = new CompanyAdapter(this, companies);
-
                     listView.Adapter = adapter;
-                    listView.ItemClick -= CompanyListView_ItemClick;
+                    listView.ItemClick -= ListView_ItemClick;
                     listView.ItemClick += CompanyListView_ItemClick;
                     textMessage.Visibility = ViewStates.Gone;
                     listView.Visibility = ViewStates.Visible;
@@ -277,8 +288,8 @@ namespace PhirAPP
             }
             catch (Exception ex)
             {
-                Log.Error("MainActivity", "Error cargando compañias: " + ex.Message);
-                textMessage.Text = "Error cargando compañias: " + ex.Message;
+                Log.Error("MainActivity", "Error loading companies: " + ex.Message);
+                textMessage.Text = "Error loading companies: " + ex.Message;
                 textMessage.Visibility = ViewStates.Visible;
                 listView.Visibility = ViewStates.Gone;
             }
@@ -296,7 +307,7 @@ namespace PhirAPP
                 var notifications = await ApiService.FetchNotificationsAsync();
                 if (notifications == null || !notifications.Any())
                 {
-                    textMessage.Text = "No hay notificaciones disponibles.";
+                    textMessage.Text = "No notifications available.";
                     textMessage.Visibility = ViewStates.Visible;
                     listViewNot.Visibility = ViewStates.Gone;
                 }
@@ -312,8 +323,8 @@ namespace PhirAPP
             }
             catch (Exception ex)
             {
-                Log.Error("MainActivity", "Error cargando notificaciones: " + ex.Message);
-                textMessage.Text = "Error cargando notificaciones: " + ex.Message;
+                Log.Error("MainActivity", "Error loading notifications: " + ex.Message);
+                textMessage.Text = "Error loading notifications: " + ex.Message;
                 textMessage.Visibility = ViewStates.Visible;
                 listViewNot.Visibility = ViewStates.Gone;
             }
@@ -326,57 +337,47 @@ namespace PhirAPP
         private void NotificationListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var notification = ((NotificationAdapter)listViewNot.Adapter).Notifications[e.Position];
-            if (!string.IsNullOrEmpty(notification.Link))
+            if (notification.ArticleId > 0)
             {
-                Intent intent;
-                if (notification.Link.StartsWith("http"))
-                {
-                    intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(notification.Link));
-                }
-                else
-                {
-                    intent = new Intent(this, typeof(ArticleDetailActivity));
-                    intent.PutExtra("articleId", int.Parse(notification.Link));
-                }
-                StartActivity(intent);
+                // Directly navigate to the article detail activity
+                Task.Run(() => NavigateToArticleDirectly(notification.ArticleId));
             }
         }
 
-        private async void LoadArticlesForCompany(int companyId)
+        private async Task NavigateToArticleDirectly(int articleId)
         {
-            progressBar.Visibility = ViewStates.Visible;
             try
             {
-                var articles = await ApiService.FetchArticlesForCompanyAsync(companyId);
-                if (articles.Any())
+                RunOnUiThread(() => progressBar.Visibility = ViewStates.Visible);
+
+                // Fetch the article details directly
+                var article = await ApiService.FetchArticleByIdAsync(articleId);
+                if (article != null)
                 {
-                    articles.Reverse();
-                    ArticleAdapter adapter = new ArticleAdapter(this, articles);
-                    listView.Adapter = adapter;
-                    listView.ItemClick -= CompanyListView_ItemClick;
-                    listView.ItemClick += ListView_ItemClick;
+                    RunOnUiThread(() =>
+                    {
+                        Android.Content.Intent intent = new Android.Content.Intent(this, typeof(ArticleDetailActivity));
+                        intent.PutExtra("title", article.Title);
+                        intent.PutExtra("text", article.Text);
+                        intent.PutExtra("imagePath", SaveImageInternalStorage(ConvertBase64ToBitmap(article.Image)));
+                        intent.PutExtra("articleId", article.Id);
+                        StartActivity(intent);
+                    });
                 }
                 else
                 {
-                    RunOnUiThread(() => Toast.MakeText(this, "No articles found for this company.", ToastLength.Short).Show());
+                    RunOnUiThread(() => Toast.MakeText(this, "Article not found.", ToastLength.Short).Show());
                 }
             }
             catch (Exception ex)
             {
-                Log.Error("MainActivity", "Error loading articles: " + ex.Message);
-                RunOnUiThread(() => Toast.MakeText(this, "Failed to load articles.", ToastLength.Short).Show());
+                Log.Error("MainActivity", "Failed to fetch article: " + ex.Message);
+                RunOnUiThread(() => Toast.MakeText(this, "An error occurred.", ToastLength.Short).Show());
             }
             finally
             {
-                progressBar.Visibility = ViewStates.Gone;
+                RunOnUiThread(() => progressBar.Visibility = ViewStates.Gone);
             }
-        }
-
-        private void CompanyListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            var company = ((CompanyAdapter)listView.Adapter).Companies[e.Position];
-            displayingCompanies = false;
-            LoadArticlesForCompany(company.Id);
         }
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -387,11 +388,11 @@ namespace PhirAPP
                 if (adapter != null)
                 {
                     var article = adapter.Articles[e.Position];
-                    Intent intent = new Intent(this, typeof(ArticleDetailActivity));
+                    Android.Content.Intent intent = new Android.Content.Intent(this, typeof(ArticleDetailActivity));
                     intent.PutExtra("title", article.Title);
                     intent.PutExtra("text", article.Text);
                     intent.PutExtra("imagePath", SaveImageInternalStorage(ConvertBase64ToBitmap(article.Image)));
-                    intent.PutExtra("articleId", article.Id);
+                    intent.PutExtra("articleId", article.Id); // Ensure ID is converted to string if it's not already
                     StartActivity(intent);
                 }
                 else
@@ -406,17 +407,51 @@ namespace PhirAPP
             }
         }
 
+        private async void CompanyListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var company = ((CompanyAdapter)listView.Adapter).Companies[e.Position];
+            await LoadArticlesForCompany(company.Id);
+        }
+
+        private async Task LoadArticlesForCompany(int companyId)
+        {
+            RunOnUiThread(() => progressBar.Visibility = ViewStates.Visible);
+
+            try
+            {
+                Log.Info("MainActivity", $"Fetching articles for company ID: {companyId}");
+                var articles = await ApiService.FetchArticlesForCompanyAsync(companyId);
+                if (articles != null && articles.Any())
+                {
+                    RunOnUiThread(() =>
+                    {
+                        articles.Reverse();
+                        var adapter = new ArticleAdapter(this, articles);
+                        listView.Adapter = adapter;
+                        listView.ItemClick -= CompanyListView_ItemClick;
+                        listView.ItemClick += ListView_ItemClick;
+                        Log.Info("MainActivity", $"Fetched {articles.Count} articles.");
+                    });
+                }
+                else
+                {
+                    RunOnUiThread(() => Toast.MakeText(this, "No articles found for this company.", ToastLength.Short).Show());
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("MainActivity", $"Error loading articles: {ex.Message}");
+                RunOnUiThread(() => Toast.MakeText(this, "Failed to load articles.", ToastLength.Short).Show());
+            }
+            finally
+            {
+                RunOnUiThread(() => progressBar.Visibility = ViewStates.Gone);
+            }
+        }
+
         public override void OnBackPressed()
         {
-            if (!displayingCompanies)
-            {
-                LoadHomePage();
-                displayingCompanies = true;
-            }
-            else
-            {
-                base.OnBackPressed();
-            }
+            LoadHomePage();
         }
 
         private string SaveImageInternalStorage(Bitmap bitmap)

@@ -2,6 +2,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
@@ -30,13 +31,12 @@ namespace PhirAPP
             username = sharedPreferences.GetString("username", null);
             if (string.IsNullOrEmpty(username))
             {
-                Finish(); // Exit if no username
+                Finish();
                 return;
             }
 
             SetupViews();
 
-            // Show progress bar
             progressBar.Visibility = ViewStates.Visible;
             try
             {
@@ -45,11 +45,9 @@ namespace PhirAPP
             }
             finally
             {
-                // Hide progress bar
                 progressBar.Visibility = ViewStates.Gone;
             }
 
-            // Setup for posting a new comment
             EditText newCommentInput = FindViewById<EditText>(Resource.Id.commentInput);
             Button submitCommentButton = FindViewById<Button>(Resource.Id.submitCommentButton);
             submitCommentButton.Click += async (sender, e) =>
@@ -58,7 +56,7 @@ namespace PhirAPP
                 if (!string.IsNullOrEmpty(newCommentText))
                 {
                     await PostComment(articleId, username, newCommentText, null);
-                    newCommentInput.Text = ""; // Clear the input field
+                    newCommentInput.Text = "";
                     List<Comment> comments = await ApiService.FetchComments(articleId);
                     AddCommentsToLayout(comments, commentsContainer);
                 }
@@ -73,14 +71,34 @@ namespace PhirAPP
             commentsContainer = FindViewById<LinearLayout>(Resource.Id.commentsContainer);
             progressBar = FindViewById<ProgressBar>(Resource.Id.articleProgressBar);
 
-            titleView.Text = Intent.GetStringExtra("title");
-            textView.Text = Intent.GetStringExtra("text");
-            articleId = Intent.GetIntExtra("articleId", 0);
-
-            if (!string.IsNullOrEmpty(Intent.GetStringExtra("imagePath")))
+            // Ensure articleId is correctly assigned
+            if (Intent.HasExtra("articleId"))
             {
-                Bitmap bitmap = BitmapFactory.DecodeFile(Intent.GetStringExtra("imagePath"));
-                imageView.SetImageBitmap(bitmap);
+                articleId = Intent.GetIntExtra("articleId", -1);
+                Log.Info("ArticleDetailActivity", $"Received articleId: {articleId}");
+            }
+            else
+            {
+                Log.Error("ArticleDetailActivity", "No articleId received in intent.");
+                Finish();
+                return;
+            }
+
+            titleView.Text = Intent.GetStringExtra("title") ?? "No title";
+            textView.Text = Intent.GetStringExtra("text") ?? "No text";
+
+            var imagePath = Intent.GetStringExtra("imagePath");
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                Bitmap bitmap = BitmapFactory.DecodeFile(imagePath);
+                if (bitmap != null)
+                {
+                    imageView.SetImageBitmap(bitmap);
+                }
+                else
+                {
+                    Log.Error("ArticleDetailActivity", "Failed to decode the image.");
+                }
             }
 
             ImageButton backButton = FindViewById<ImageButton>(Resource.Id.backButton);
@@ -103,7 +121,7 @@ namespace PhirAPP
                     LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent)
                 };
                 repliesContainer.SetPadding(30, 0, 0, 0);
-                repliesContainer.Visibility = ViewStates.Gone;  // Initially hide replies
+                repliesContainer.Visibility = ViewStates.Gone;
                 container.AddView(repliesContainer);
 
                 AddAllReplies(comment.CommentId, allComments, repliesContainer);
@@ -119,7 +137,6 @@ namespace PhirAPP
                 View replyView = AddCommentView(reply, repliesContainer, true);
                 repliesContainer.AddView(replyView);
 
-                // Recursive call to add replies at the same level, under the parent's container
                 AddAllReplies(reply.CommentId, allComments, repliesContainer);
             }
         }
@@ -163,7 +180,6 @@ namespace PhirAPP
             if (result)
             {
                 Toast.MakeText(this, "Comentario borrado correctamente", ToastLength.Short).Show();
-                // Refresh the comment list
                 List<Comment> updatedComments = await ApiService.FetchComments(articleId);
                 AddCommentsToLayout(updatedComments, commentsContainer);
             }
@@ -177,7 +193,6 @@ namespace PhirAPP
         {
             TextView showRepliesText = commentView.FindViewById<TextView>(Resource.Id.showRepliesText);
 
-            // Only show the "Ver respuestas" text if there are actually replies in the repliesContainer
             if (repliesContainer.ChildCount > 0)
             {
                 showRepliesText.Visibility = ViewStates.Visible;
@@ -198,7 +213,6 @@ namespace PhirAPP
             }
             else
             {
-                // Hide the "Ver respuestas" text if there are no replies
                 showRepliesText.Visibility = ViewStates.Gone;
             }
         }

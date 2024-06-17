@@ -7,6 +7,7 @@ using System.Text;
 using Android.Widget;
 using Android.Content;
 using Android.Util;
+using System.Linq;
 
 namespace PhirApp.Services
 {
@@ -53,6 +54,7 @@ namespace PhirApp.Services
                 return new List<Article>();
             }
         }
+
         public static async Task<List<Notification>> FetchNotificationsAsync()
         {
             try
@@ -97,6 +99,7 @@ namespace PhirApp.Services
                 throw;
             }
         }
+
         public static async Task<List<Company>> FetchCompaniesAsync()
         {
             try
@@ -123,6 +126,35 @@ namespace PhirApp.Services
             }
         }
 
+        public static async Task<Article> FetchArticleByIdAsync(int articleId)
+        {
+            try
+            {
+                string url = $"https://phiraapiproject.azurewebsites.net/api/articles/{articleId}";
+                var response = await client.GetStringAsync(url);
+                var articles = JsonConvert.DeserializeObject<List<Article>>(response);
+
+                if (articles != null && articles.Count > 0)
+                {
+                    return articles.First();
+                }
+                else
+                {
+                    Log.Error("ApiService", "Article not found in the response.");
+                    return null;
+                }
+            }
+            catch (JsonSerializationException ex)
+            {
+                Log.Error("ApiService", $"JSON serialization error: {ex.Message}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("ApiService", $"Error fetching article by ID: {ex.Message}");
+                return null;
+            }
+        }
 
         public static async Task<List<Article>> FetchArticlesForCompanyAsync(int companyId)
         {
@@ -196,6 +228,7 @@ namespace PhirApp.Services
                 return new List<Comment>();
             }
         }
+
         public static async Task PostCommentForArticle(int articleId, Comment comment)
         {
             var json = JsonConvert.SerializeObject(comment);
@@ -217,6 +250,7 @@ namespace PhirApp.Services
                 throw;
             }
         }
+
         public static async Task<bool> DeleteComment(int commentId)
         {
             try
@@ -238,6 +272,7 @@ namespace PhirApp.Services
                 return false;
             }
         }
+
         public static async Task<bool> ChangePassword(Context context, string username, string currentPassword, string newPassword, string confirmPassword)
         {
             var postData = new Dictionary<string, string>
