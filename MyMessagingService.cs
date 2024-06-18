@@ -66,5 +66,6 @@ namespace PhirAPP
 
             notificationManager.Notify(new Random().Next(), notificationBuilder.Build());
         }
+
     }
 }

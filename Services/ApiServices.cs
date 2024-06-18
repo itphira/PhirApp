@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.Content;
 using Android.Util;
 using System.Linq;
+using MyApiProject.Models;
 
 namespace PhirApp.Services
 {
@@ -205,6 +206,29 @@ namespace PhirApp.Services
             }
         }
 
+        public static async Task<Comment> FetchCommentById(int commentId)
+        {
+            try
+            {
+                var response = await client.GetAsync($"api/comments/{commentId}");
+                var json = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<Comment>(json);
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to fetch comment: {response.StatusCode}");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in FetchCommentById: {ex.Message}");
+                return null;
+            }
+        }
+
         public static async Task<List<Comment>> FetchComments(int articleId)
         {
             try
@@ -305,5 +329,27 @@ namespace PhirApp.Services
                 return false;
             }
         }
+        public static async Task SendReplyNotification(ReplyNotificationRequest replyNotificationRequest)
+        {
+            var json = JsonConvert.SerializeObject(replyNotificationRequest);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync("api/send-reply-notification", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Failed to send reply notification: {response.StatusCode}, Response: {responseContent}");
+                    throw new Exception($"Server error: {responseContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in SendReplyNotification: {ex.Message}");
+                throw;
+            }
+        }
+
     }
 }

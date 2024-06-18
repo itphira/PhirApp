@@ -34,7 +34,7 @@ namespace PhirAPP
             SetContentView(Resource.Layout.activity_main);
 
             // Initialize Firebase messaging
-            FirebaseMessaging.Instance.SubscribeToTopic("all")
+            FirebaseMessaging.Instance.SubscribeToTopic("articles")
                 .AddOnCompleteListener(new OnCompleteListener());
 
             // Get username from shared preferences
@@ -47,6 +47,9 @@ namespace PhirAPP
                 Finish();
                 return;
             }
+
+            FirebaseMessaging.Instance.SubscribeToTopic(username)
+                .AddOnCompleteListener(new OnCompleteListener());
 
             SetupViews();
             LoadHomePage();
@@ -313,6 +316,7 @@ namespace PhirAPP
                 }
                 else
                 {
+                    notifications.Reverse();
                     NotificationAdapter adapter = new NotificationAdapter(this, notifications);
                     listViewNot.Adapter = adapter;
                     listViewNot.ItemClick -= NotificationListView_ItemClick;

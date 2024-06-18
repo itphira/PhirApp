@@ -76,6 +76,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ReplyNotificationRequest.cs" />
     <Compile Include="Models\Notifications.cs" />
     <Compile Include="Models\Companies.cs" />
     <Compile Include="Models\CommentAdapter.cs" />

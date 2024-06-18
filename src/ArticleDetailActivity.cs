@@ -6,11 +6,14 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using Org.Apache.Http.Authentication;
+using Org.W3c.Dom;
 using PhirApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MyApiProject.Models;
 
 namespace PhirAPP
 {
@@ -248,7 +251,6 @@ namespace PhirAPP
                 }
             };
         }
-
         private async Task PostComment(int articleId, string username, string commentText, int? parentId = null)
         {
             var newComment = new Comment
@@ -265,6 +267,24 @@ namespace PhirAPP
                 await ApiService.PostCommentForArticle(articleId, newComment);
                 List<Comment> updatedComments = await ApiService.FetchComments(articleId);
                 AddCommentsToLayout(updatedComments, commentsContainer);
+
+                // Check if the comment is a reply
+                if (parentId.HasValue)
+                {
+                    var parentComment = await ApiService.FetchCommentById(parentId.Value);
+                    if (parentComment != null)
+                    {
+                        var replyNotificationRequest = new ReplyNotificationRequest
+                        {
+                            Title = "New Reply to Your Comment",
+                            ToUsername = parentComment.Author,
+                            FromUsername = username,
+                            Message = $"{username} replied to your comment."
+                        };
+
+                        await ApiService.SendReplyNotification(replyNotificationRequest);
+                    }
+                }
             }
             catch (Exception ex)
             {
