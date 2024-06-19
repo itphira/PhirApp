@@ -329,6 +329,7 @@ namespace PhirApp.Services
                 return false;
             }
         }
+
         public static async Task SendReplyNotification(ReplyNotificationRequest replyNotificationRequest)
         {
             var json = JsonConvert.SerializeObject(replyNotificationRequest);
@@ -351,5 +352,18 @@ namespace PhirApp.Services
             }
         }
 
+        public static async Task DeleteAllNotificationsAsync()
+        {
+            var url = $"{client.BaseAddress}api/notifications/deleteAll"; // Asegúrate de tener el endpoint correcto en tu API
+            var response = await client.DeleteAsync(url);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task MarkNotificationAsReadAsync(int notificationId)
+        {
+            var url = $"{client.BaseAddress}api/notifications/markAsRead/{notificationId}"; // Asegúrate de tener el endpoint correcto en tu API
+            var response = await client.PutAsync(url, null);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

@@ -221,6 +221,10 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\phira_inverted_colours.png" />
+    <AndroidResource Include="Resources\drawable\unread_bubble.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <Content Include="Resources\drawable\reply_button_background.xml" />
     <AndroidResource Include="Resources\layout\activity_profile.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
@@ -231,6 +235,10 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\activity_notification.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\menu\menu_main.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
