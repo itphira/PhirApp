@@ -24,20 +24,10 @@ namespace PhirAPP
 
             var titleView = convertView.FindViewById<TextView>(Resource.Id.notificationTitleView);
             var textView = convertView.FindViewById<TextView>(Resource.Id.notificationTextView);
-            var unreadBubble = convertView.FindViewById<View>(Resource.Id.unreadBubble);
 
             var notification = Notifications[position];
             titleView.Text = notification.Title;
             textView.Text = notification.Text;
-
-            if (notification.IsRead)
-            {
-                unreadBubble.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                unreadBubble.Visibility = ViewStates.Visible;
-            }
 
             return convertView;
         }

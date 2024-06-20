@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.BottomNavigation;
@@ -11,11 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.Graphics;
 using Android.Util;
 using Firebase.Messaging;
 using Android.Webkit;
 using AndroidX.AppCompat.Widget;
+using Android.Graphics;
+using Android.Runtime;
 
 namespace PhirAPP
 {
@@ -340,21 +340,11 @@ namespace PhirAPP
             }
         }
 
-        private async void NotificationListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        private void NotificationListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var notification = ((NotificationAdapter)listViewNot.Adapter).Notifications[e.Position];
-            notification.IsRead = true;
             var adapter = (NotificationAdapter)listViewNot.Adapter;
             adapter.NotifyDataSetChanged();
-
-            try
-            {
-                await ApiService.MarkNotificationAsReadAsync(notification.Id); // Asumiendo que tienes un método en ApiService para marcar una notificación como leída
-            }
-            catch (Exception ex)
-            {
-                Log.Error("MainActivity", "Error marking notification as read: " + ex.Message);
-            }
 
             if (notification.ArticleId > 0)
             {
