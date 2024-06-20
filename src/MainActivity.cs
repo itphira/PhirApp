@@ -16,8 +16,6 @@ using Android.Util;
 using Firebase.Messaging;
 using Android.Webkit;
 using AndroidX.AppCompat.Widget;
-using AndroidWidgetToolbar = Android.Widget.Toolbar;
-using AndroidXAppCompatToolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 namespace PhirAPP
 {
@@ -31,16 +29,11 @@ namespace PhirAPP
         private string username;
         private ProgressBar progressBar;
         private List<Notification> notifications;
-        private AndroidXAppCompatToolbar toolbar;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-
-            // Setup Toolbar
-            toolbar = FindViewById<AndroidXAppCompatToolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
 
             // Initialize Firebase messaging
             FirebaseMessaging.Instance.SubscribeToTopic("articles")
@@ -74,41 +67,6 @@ namespace PhirAPP
                 }
             }
         }
-
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.menu_main, menu);
-            return true;
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            switch (item.ItemId)
-            {
-                case Resource.Id.action_clear_notifications:
-                    ClearAllNotifications();
-                    return true;
-                default:
-                    return base.OnOptionsItemSelected(item);
-            }
-        }
-        private async void ClearAllNotifications()
-        {
-            try
-            {
-                await ApiService.DeleteAllNotificationsAsync(); // Asumiendo que tienes un método en ApiService para eliminar todas las notificaciones
-                notifications.Clear();
-                var adapter = (NotificationAdapter)listViewNot.Adapter;
-                adapter.NotifyDataSetChanged();
-                Toast.MakeText(this, "Notificaciones descartadas", ToastLength.Short).Show();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("MainActivity", "Error clearing notifications: " + ex.Message);
-                Toast.MakeText(this, "Error al descartar notificaciones", ToastLength.Short).Show();
-            }
-        }
-
 
         private void SetupViews()
         {
@@ -381,6 +339,7 @@ namespace PhirAPP
                 progressBar.Visibility = ViewStates.Gone;
             }
         }
+
         private async void NotificationListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var notification = ((NotificationAdapter)listViewNot.Adapter).Notifications[e.Position];
