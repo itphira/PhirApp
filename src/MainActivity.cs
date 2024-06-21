@@ -30,9 +30,19 @@ namespace PhirAPP
         private ProgressBar progressBar;
         private List<Notification> notifications;
 
+        private enum Page
+        {
+            Home,
+            Dashboard,
+            Notifications
+        }
+
+        private Page currentPage;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             SetContentView(Resource.Layout.activity_main);
 
             // Initialize Firebase messaging
@@ -119,15 +129,18 @@ namespace PhirAPP
                 case Resource.Id.navigation_home:
                     listView.Visibility = ViewStates.Visible;
                     LoadHomePage();
+                    currentPage = Page.Home;
                     break;
                 case Resource.Id.navigation_dashboard:
                     FrameLayout container = FindViewById<FrameLayout>(Resource.Id.fragment_container);
                     container.Visibility = ViewStates.Visible;
                     LoadDashboardPage();
+                    currentPage = Page.Dashboard;
                     break;
                 case Resource.Id.navigation_notifications:
                     listViewNot.Visibility = ViewStates.Visible;
                     LoadNotificationPage();
+                    currentPage = Page.Notifications;
                     break;
                 default:
                     return false;
@@ -174,7 +187,7 @@ namespace PhirAPP
         private void InitializeDashboardViews(View dashboardView)
         {
             TextView textUsername = dashboardView.FindViewById<TextView>(Resource.Id.textUsername);
-            textUsername.Text = $"Username: {username}";
+            textUsername.Text = $"Nombre de Usuario: {username}";
 
             Button changePasswordButton = dashboardView.FindViewById<Button>(Resource.Id.changePasswordButton);
             EditText currentPasswordInput = dashboardView.FindViewById<EditText>(Resource.Id.currentPasswordInput);
@@ -190,7 +203,7 @@ namespace PhirAPP
                     newPasswordInput.Visibility = ViewStates.Gone;
                     confirmPasswordInput.Visibility = ViewStates.Gone;
                     submitChangePasswordButton.Visibility = ViewStates.Gone;
-                    changePasswordButton.Text = "Change Password";
+                    changePasswordButton.Text = "Cambiar Contraseña";
                 }
                 else
                 {
@@ -198,7 +211,7 @@ namespace PhirAPP
                     newPasswordInput.Visibility = ViewStates.Visible;
                     confirmPasswordInput.Visibility = ViewStates.Visible;
                     submitChangePasswordButton.Visibility = ViewStates.Visible;
-                    changePasswordButton.Text = "Cancel";
+                    changePasswordButton.Text = "Cancelar";
                 }
             };
 
@@ -213,17 +226,17 @@ namespace PhirAPP
                     bool result = await ApiService.ChangePassword(this, username, currentPassword, newPassword, confirmPassword);
                     if (result)
                     {
-                        Toast.MakeText(this, "Password changed successfully.", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Contraseña cambiada correctamente.", ToastLength.Short).Show();
                         ResetPasswordFields(currentPasswordInput, newPasswordInput, confirmPasswordInput, submitChangePasswordButton, changePasswordButton);
                     }
                     else
                     {
-                        Toast.MakeText(this, "Error changing password. Check your current password.", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Error cambiando la contraseña. Comprueba tu contraseña actual.", ToastLength.Short).Show();
                     }
                 }
                 else
                 {
-                    Toast.MakeText(this, "Passwords do not match or are empty", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Las contraseñas no coinciden o están vacías.", ToastLength.Short).Show();
                 }
             };
 
@@ -461,7 +474,17 @@ namespace PhirAPP
 
         public override void OnBackPressed()
         {
-            LoadHomePage();
+            if (currentPage == Page.Home)
+            {
+                base.OnBackPressed();
+            }
+            else
+            {
+                BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
+                navigation.SelectedItemId = Resource.Id.navigation_home;
+                LoadHomePage();
+                currentPage = Page.Home;
+            }
         }
 
         private string SaveImageInternalStorage(Bitmap bitmap)

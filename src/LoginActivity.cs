@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using PhirApp.Services;
 using Android.Views.InputMethods;
 using System;
+using Android;
+using Android.Content.PM;
+
 
 namespace PhirAPP
 {
@@ -21,6 +24,19 @@ namespace PhirAPP
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            const int requestLocationId = 0;
+
+            string[] notiPermission =
+            {
+                Manifest.Permission.PostNotifications
+            };
+
+            if ((int)Build.VERSION.SdkInt < 33) return;
+
+            if (this.CheckSelfPermission(Manifest.Permission.PostNotifications) != Permission.Granted)
+            {
+                this.RequestPermissions(notiPermission, requestLocationId);
+            }
             SetContentView(Resource.Layout.login_activity);
 
             // Check if user is already logged in

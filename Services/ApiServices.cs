@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Util;
 using System.Linq;
 using MyApiProject.Models;
+using Org.Apache.Http.Protocol;
 
 namespace PhirApp.Services
 {
@@ -299,15 +300,17 @@ namespace PhirApp.Services
 
         public static async Task<bool> ChangePassword(Context context, string username, string currentPassword, string newPassword, string confirmPassword)
         {
-            var postData = new Dictionary<string, string>
+            var postData = new
             {
-                {"username", username},
-                {"currentPassword", currentPassword},
-                {"newPassword", newPassword},
-                {"confirmPassword", confirmPassword}
+                Username = username,
+                CurrentPassword = currentPassword,
+                NewPassword = newPassword,
+                ConfirmPassword = confirmPassword
             };
 
-            var content = new FormUrlEncodedContent(postData);
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(postData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             try
             {
                 HttpResponseMessage response = await client.PostAsync("api/users/change-password", content);
@@ -320,12 +323,15 @@ namespace PhirApp.Services
                 else
                 {
                     // Handle failure scenario here
+                    Toast.MakeText(context, "Error: " + responseContent, ToastLength.Long).Show();
+                    Log.Error("MainActivity", "Error: " + responseContent);
                     return false;
                 }
             }
             catch (Exception ex)
             {
                 Toast.MakeText(context, "Excepción: " + ex.Message, ToastLength.Long).Show();
+                Log.Error("MainActivity", "Excepción: " + ex.Message);
                 return false;
             }
         }
