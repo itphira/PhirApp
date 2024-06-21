@@ -9,7 +9,7 @@ using Android.Views.InputMethods;
 using System;
 using Android;
 using Android.Content.PM;
-
+using Android.Text.Method;
 
 namespace PhirAPP
 {
@@ -20,6 +20,8 @@ namespace PhirAPP
         EditText passwordEditText;
         Button loginButton;
         ProgressBar progressBar;
+        ImageButton togglePasswordVisibilityButton;
+        bool isPasswordVisible = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -31,11 +33,12 @@ namespace PhirAPP
                 Manifest.Permission.PostNotifications
             };
 
-            if ((int)Build.VERSION.SdkInt < 33) return;
-
-            if (this.CheckSelfPermission(Manifest.Permission.PostNotifications) != Permission.Granted)
+            if ((int)Build.VERSION.SdkInt >= 33)
             {
-                this.RequestPermissions(notiPermission, requestLocationId);
+                if (this.CheckSelfPermission(Manifest.Permission.PostNotifications) != Permission.Granted)
+                {
+                    this.RequestPermissions(notiPermission, requestLocationId);
+                }
             }
             SetContentView(Resource.Layout.login_activity);
 
@@ -54,6 +57,7 @@ namespace PhirAPP
             passwordEditText = FindViewById<EditText>(Resource.Id.passwordEditText);
             loginButton = FindViewById<Button>(Resource.Id.loginButton);
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
+            togglePasswordVisibilityButton = FindViewById<ImageButton>(Resource.Id.togglePasswordVisibilityButton);
 
             usernameEditText.EditorAction += (sender, e) =>
             {
@@ -77,6 +81,27 @@ namespace PhirAPP
             {
                 await Login();
             };
+
+            togglePasswordVisibilityButton.Click += (sender, e) =>
+            {
+                TogglePasswordVisibility();
+            };
+        }
+
+        private void TogglePasswordVisibility()
+        {
+            if (isPasswordVisible)
+            {
+                passwordEditText.InputType = Android.Text.InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
+                togglePasswordVisibilityButton.SetImageResource(Resource.Drawable.design_ic_visibility_off);
+            }
+            else
+            {
+                passwordEditText.InputType = Android.Text.InputTypes.ClassText | Android.Text.InputTypes.TextVariationVisiblePassword;
+                togglePasswordVisibilityButton.SetImageResource(Resource.Drawable.design_ic_visibility);
+            }
+            isPasswordVisible = !isPasswordVisible;
+            passwordEditText.SetSelection(passwordEditText.Text.Length); // Move cursor to the end
         }
 
         private async Task Login()
@@ -99,7 +124,8 @@ namespace PhirAPP
                 Finish();
             }
             else
-            {  
+            {
+                Toast.MakeText(this, "Error en inicio de sesión", ToastLength.Short).Show();
             }
 
             progressBar.Visibility = Android.Views.ViewStates.Gone;
