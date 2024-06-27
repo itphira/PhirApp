@@ -458,7 +458,7 @@ namespace PhirAPP
                 }
                 else
                 {
-                    RunOnUiThread(() => Toast.MakeText(this, "No articles found for this company.", ToastLength.Short).Show());
+                    RunOnUiThread(() => Toast.MakeText(this, "No se han encontrado artículos para esta compañia.", ToastLength.Short).Show());
                 }
             }
             catch (Exception ex)
