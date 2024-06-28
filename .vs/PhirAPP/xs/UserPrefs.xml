@@ -1,0 +1,6 @@
+﻿<Properties StartupConfiguration="{1A533DC3-4A63-4D99-A9AF-2439EA4F89E5}|Default">
+  <MonoDevelop.Ide.ItemProperties.PhirApp.Shared FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.PhirAPP PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.ItemProperties.PhirApp.iOS FirstBuild="True" />
+  <MultiItemStartupConfigurations />
+</Properties>
