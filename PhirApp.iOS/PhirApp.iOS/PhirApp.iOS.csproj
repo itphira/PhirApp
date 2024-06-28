@@ -60,11 +60,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
     <Compile Include="SceneDelegate.cs" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+    <Compile Include="Models\Articles.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Companies.cs" />
+    <Compile Include="Models\ArticleResponse.cs" />
+    <Compile Include="Models\Notifications.cs" />
+    <Compile Include="Models\ReplyNotificationRequest.cs" />
+    <Compile Include="Services\ApiServices.cs" />
+    <Compile Include="src\ArticleDetailViewController.cs" />
+    <Compile Include="src\CompaniesViewController.cs" />
+    <Compile Include="src\LoginViewController.cs" />
+    <Compile Include="src\MainViewController.cs" />
+    <Compile Include="src\AppDelegate.cs" />
+    <Compile Include="src\NotificationTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FirstViewController.cs" />
@@ -78,18 +90,6 @@
     <InterfaceDefinition Include="Main.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\First.imageset\Contents.json">
-          <Visible>false</Visible>
-    </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\First.imageset\First.pdf">
-          <Visible>false</Visible>
-    </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\Second.imageset\Contents.json">
-          <Visible>false</Visible>
-        </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Second.imageset\Second.pdf">
-          <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
       <Visible>false</Visible>
@@ -130,6 +130,13 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Perfil.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Perfil.imageset\21284.png" />
+    <ImageAsset Include="Assets.xcassets\Notificaciones.imageset\small-bell-9.png" />
+    <ImageAsset Include="Assets.xcassets\Notificaciones.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Artículos.imageset\content-view-grid-icon.png" />
+    <ImageAsset Include="Assets.xcassets\Artículos.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -144,6 +151,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+    <Folder Include="src\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
