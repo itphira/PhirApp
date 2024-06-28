@@ -75,16 +75,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ReplyNotificationRequest.cs" />
-    <Compile Include="Models\Notifications.cs" />
-    <Compile Include="Models\Companies.cs" />
-    <Compile Include="Models\CommentAdapter.cs" />
-    <Compile Include="Models\ArticleResponse.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Articles.cs" />
     <Compile Include="MyMessagingService.cs" />
     <Compile Include="MyFirebaseIDInstance.cs" />
-    <Compile Include="Services\ApiServices.cs" />
     <Compile Include="src\ArticleDetailActivity.cs" />
     <Compile Include="src\LoginActivity.cs" />
     <Compile Include="src\MainActivity.cs" />

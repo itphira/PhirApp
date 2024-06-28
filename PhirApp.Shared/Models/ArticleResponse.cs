@@ -1,7 +1,7 @@
 using PhirApp.Models;
 using System.Collections.Generic;
 
-namespace PhirApp.Models
+namespace PhirApp.Shared.Models
 {
     public class ArticleResponse
     {

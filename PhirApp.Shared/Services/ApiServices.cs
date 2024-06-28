@@ -11,7 +11,7 @@ using System.Linq;
 using MyApiProject.Models;
 using Org.Apache.Http.Protocol;
 
-namespace PhirApp.Services
+namespace PhirApp.Shared.Services
 {
     public static class ApiService
     {
